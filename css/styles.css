@@ -55,6 +55,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+
 }
 body {
     font-family: "Inter", sans-serif;
@@ -63,7 +64,7 @@ body {
     font-weight: 400;
     color: #fff;
     background-color: var(--theme-color);  
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     
 }
 html {
@@ -107,7 +108,7 @@ img, svg {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #fff;
+    background-color: var(--theme-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -132,10 +133,13 @@ img, svg {
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    background: linear-gradient(to right, #000, #555, #000);
-    -webkit-background-clip: text;
+    background: linear-gradient(to right,#fff, #808080, #6c757d);
+    background-clip: text;
     color: transparent;
     animation: gradient 2s linear infinite;
+    font-family: Arial, sans-serif;
+    font-size: 1.8rem;
+    color: var(--bs-body-bg);
 }
   .loading-text span {
     animation: bounce 1s infinite;
@@ -160,12 +164,7 @@ img, svg {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-1rem); }
 }
-  
-  .loading-text {
-    font-family: Arial, sans-serif;
-    font-size: 1.8rem;
-    color: #000;
-  }
+
   
   @keyframes spin {
     to { transform: rotate(360deg); }
@@ -179,23 +178,24 @@ img, svg {
 /** POINTER*/
 .cursor {
     pointer-events: none;
-    position: fixed;
+    position: absolute;
     width: 2rem;
     height: 2rem;
     background-color: #fff;
     border-radius: 50%;
     mix-blend-mode: difference;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    z-index: 3;
+    z-index: 100;
+    transition: width 0.5s, height 0.5s, opacity 0.5s;
 }
-
 .cursor-pointer {
     cursor: pointer;
 }
 
 .cursor-active {
-    transform: scale(3.5); 
-    opacity: 0.3;
+    width: 7rem;
+    height: 7rem;
+    opacity: 0.5;
+    transition: width 0.5s, height 0.5s, opacity 0.5s;
 }
 /**CIRULE PROGRES*/
 .progress-wrap {
@@ -233,6 +233,18 @@ img, svg {
     -webkit-transition: all 400ms linear;
     -o-transition: all 400ms linear;
     transition: all 400ms linear;
+}
+.progress-wrap.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.progress-circle path {
+    stroke: #ccc;
+    stroke-width: 5;
+    fill: none;
+    transition: stroke-dashoffset 0.1s linear;
 }
 /** HEADER*/
 
@@ -291,15 +303,8 @@ img, svg {
     position: fixed;
     top: -8rem;
     padding: 1.5rem 0;
-    -webkit-transition: -webkit-transform .8s;
-    transition: -webkit-transform .8s;
-    -o-transition: transform .8s;
     transition: transform .8s;
-    transition: transform .8s, -webkit-transform .8s;
-    -webkit-transform: translateY(8rem);
-    -ms-transform: translateY(8rem);
     transform: translateY(8rem);
-    -webkit-backdrop-filter: blur(1rem);
     backdrop-filter: blur(1rem);
 }
 .nav-menu:hover{
@@ -387,7 +392,7 @@ span.icon {
     top: 0;
     left: 0;
     width: 100%;
-    height: 127.8%;
+    height: 80.2rem;
     overflow: hidden;
     pointer-events: none;
     background-image: url(/images/g-back.png);
@@ -432,13 +437,8 @@ span.icon {
     max-width: 1320px;  
 }
 .row {
-    --bs-gutter-x: 1.5rem;
-    --bs-gutter-y: 0;
     display: flex;
     flex-wrap: wrap;
-    margin-top: calc(var(--bs-gutter-y)* -1);
-    margin-right: calc(var(--bs-gutter-x)* -.5);
-    margin-left: calc(var(--bs-gutter-x)* -.5);
 }
 .row > * {
     padding-left: 4.5rem;
@@ -455,7 +455,7 @@ span.icon {
 .caption h1 {
     font-size: 9.6rem;
     line-height: 9.6rem;
-    letter-spacing: -.4;
+    letter-spacing: -.4rem;
 }
 .sub-color {
     color: #808080;
@@ -520,9 +520,12 @@ span.icon {
     .sec-head {
         margin-bottom: 10rem;
     }
+    .row2 {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 4.5rem;
+    }
     .row > * {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
         margin-top: 0;
         box-sizing: border-box;
     }
@@ -577,6 +580,7 @@ span.icon {
         background: var(--bs-gray-900);
         padding: 1.5rem;
         border-radius: 2rem;
+        margin: 1rem;
     }
     .cont {
         padding: 1.5rem;
@@ -589,8 +593,11 @@ span.icon {
         margin-left: auto;
     }
     .cont .text {
-        margin-top: 10rem;
+        margin-top: 6rem;
         margin-bottom: 2rem;
+    }
+    .img-cards{
+        border-radius: 2rem;
     }
     .icon img {
         width: 2.5rem;
@@ -620,7 +627,7 @@ span.icon {
     .main-marq {
         position: relative;
         padding: 0;
-        overflow: hidden; /* Oculta el desbordamiento para evitar mostrar el contenido fuera de la caja */
+        overflow: hidden;
     }
     
     .slide-har {
@@ -634,26 +641,25 @@ span.icon {
     }
     
     .item-s2 {
-        padding: 0 80px;
+        padding: 0 8rem;
         position: relative;
     }
     
     .item-s2 h2 {
         white-space: nowrap;
-        font-size: 96px;
-        line-height: 120px;
-        letter-spacing: -4px;
+        font-size: 9.6rem;
+        line-height: 12rem;
+        letter-spacing: -.4rem;
         background: linear-gradient(to right, #fff, transparent);
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        text-fill-color: transparent;
     }
     
     .item-s2:after {
         content: '';
-        width: 12px;
-        height: 12px;
+        width: 1.2rem;
+        height: 1.2rem;
         background: #fff;
         border-radius: 50%;
         position: absolute;
@@ -674,14 +680,14 @@ span.icon {
 
     .section-3{
         padding-top: 0;
-        padding-bottom: 140px;
+        padding-bottom: 14rem;
     }
     .section-3 .box {
-        padding: 120px 60px;
+        padding: 12rem 6rem;
         background-image: url(/images/gr-back.png);
         background-size: cover;
         background-position: center center;
-        border-radius: 30px;
+        border-radius: 3rem;
         overflow: hidden;
     }
     .section-3 .info {
@@ -701,39 +707,38 @@ span.icon {
         margin-left: 8.33333333%;
     }
     .mb-30 {
-        margin-bottom: 30px;
+        margin-bottom: 3rem;
     }
     .contact-sa .contact-form label {
-        font-size: 14px;
-        margin-bottom: 5px;
+        font-size: 1.4rem;
+        margin-bottom: .5rem;
     }
     .star {
         color: red;
-        padding-left: 5px;
+        padding-left: .5rem;
     }
     .contact-form input {
         color: #fff;
         background: transparent;
         width: 100%;
-        padding: 0 0 10px;
+        padding: 0 0 1rem;
         border: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        font-size: 18px;
+        border-bottom: .1rem solid rgba(255, 255, 255, 0.2);
+        font-size: 1.8rem;
         line-height: inherit;
         outline: none;
     }
     .contact-form textarea {
         color: #fff;
         background: transparent;
-        width: 660px;
-        padding: 0 0 10px;
+        width: 61rem;
+        padding: 0 0 1rem;
         border: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        font-size: 18px;
+        border-bottom: .1rem solid rgba(255, 255, 255, 0.2);
+        font-size: 1.8rem;
         resize: none;
         line-height: inherit;
         outline: none;
-        height: 129px;
     }
     .btn-main-sc3{
         font-size: 1.4rem;
@@ -783,16 +788,16 @@ span.icon {
         width: 50%;    
     }
     .contact-info .item {
-        margin-bottom: 50px;
+        margin-bottom: 5rem;
     }
     .social-icon a {
-        width: 48px;
-        height: 48px;
-        line-height: 48px;
+        width: 4.8rem;
+        height: 4.8rem;
+        line-height: 4.8rem;
         text-align: center;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: .1rem solid rgba(255, 255, 255, 0.1);
         border-radius: 50%;
-        font-size: 14px;
+        font-size: 1.4rem;
         -webkit-transition: all .4s;
         -o-transition: all .4s;
         transition: all .4s;
@@ -806,7 +811,7 @@ span.icon {
     }
     .col-lg-8 {
         flex: 0 0 auto;
-        width: 66.66666667%;
+        width: 60%;
     }
     .conditions{
         justify-content: flex-end;
